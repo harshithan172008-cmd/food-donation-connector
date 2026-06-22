@@ -1,0 +1,134 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2d6a4f;
+  padding: 16px 32px;
+}
+
+nav h1 {
+  color: white;
+  font-size: 1.4rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 0.95rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #d8f3dc;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  color: #1b4332;
+  margin-bottom: 16px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 32px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn {
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.btn.green {
+  background-color: #2d6a4f;
+  color: white;
+}
+
+.btn.outline {
+  border: 2px solid #2d6a4f;
+  color: #2d6a4f;
+  background: white;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* HOW IT WORKS */
+.how {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.how h3 {
+  font-size: 1.6rem;
+  color: #1b4332;
+  margin-bottom: 40px;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.step {
+  background: white;
+  border-radius: 12px;
+  padding: 32px 24px;
+  width: 220px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.step span {
+  font-size: 2rem;
+}
+
+.step h4 {
+  margin: 12px 0 8px;
+  color: #2d6a4f;
+}
+
+.step p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 24px;
+  background-color: #2d6a4f;
+  color: white;
+  font-size: 0.9rem;
+}
