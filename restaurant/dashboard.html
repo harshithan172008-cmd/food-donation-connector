@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Restaurant Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+  <nav>
+    <h1>🍱 Food Donation Connector</h1>
+    <div>
+      <a href="../index.html">Home</a>
+      <span id="restaurantName">Welcome!</span>
+      <a href="../index.html" onclick="handleLogout()">Logout</a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <a href="dashboard.html" class="active">📊 Dashboard</a>
+      <a href="post-food.html">➕ Post Food</a>
+      <a href="my-donations.html">🍱 My Donations</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+      <h2>Dashboard</h2>
+      <p class="welcome">Track your donations and impact</p>
+
+      <!-- STATS -->
+      <div class="dash-stats">
+        <div class="dash-stat">
+          <span>🍱</span>
+          <h3 id="totalDonations">0</h3>
+          <p>Total Donations</p>
+        </div>
+        <div class="dash-stat">
+          <span>✅</span>
+          <h3 id="claimed">0</h3>
+          <p>Claimed</p>
+        </div>
+        <div class="dash-stat">
+          <span>⏳</span>
+          <h3 id="pending">0</h3>
+          <p>Pending</p>
+        </div>
+        <div class="dash-stat">
+          <span>🌍</span>
+          <h3 id="impact">0</h3>
+          <p>People Fed</p>
+        </div>
+      </div>
+
+      <!-- RECENT DONATIONS -->
+      <div class="recent">
+        <div class="recent-header">
+          <h3>Recent Donations</h3>
+          <a href="post-food.html" class="btn green">+ Post Food</a>
+        </div>
+        <div id="donationsList">
+          <p class="empty">No donations yet. <a href="post-food.html">Post your first one!</a></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+
+</body>
+</html>
