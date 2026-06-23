@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600;700&display=swap');
 
 * {
   margin: 0;
@@ -16,15 +16,18 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #2d6a4f;
+  background-color: #1b4332;
   padding: 18px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 nav h1 {
   color: #ffffff;
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
+  font-family: 'Times New Roman', serif;
+  font-size: 1.6rem;
+  font-weight: bold;
 }
 
 nav div a {
@@ -34,6 +37,7 @@ nav div a {
   font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
+  transition: color 0.3s;
 }
 
 nav div a:hover {
@@ -42,36 +46,76 @@ nav div a:hover {
 
 /* HERO */
 .hero {
-  text-align: center;
-  padding: 100px 20px 80px;
-  background-color: #d8f3dc;
+  position: relative;
+  height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.hero h2 {
+.hero-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.hero-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.75) 45%, rgba(0,0,0,0.1));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  max-width: 600px;
+  padding: 0 40px;
+  margin-right: auto;
+  margin-left: 60px;
+}
+
+.hero-tag {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  background: #2d6a4f;
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.hero-content h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 2.8rem;
-  color: #1b4332;
-  margin-bottom: 16px;
-  line-height: 1.3;
+  font-size: 3rem;
+  line-height: 1.25;
+  margin-bottom: 20px;
+  color: #ffffff;
 }
 
-.hero p {
+.hero-content p {
   font-family: 'Poppins', sans-serif;
   font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 40px;
+  color: #d8f3dc;
+  margin-bottom: 36px;
   font-weight: 300;
+  line-height: 1.7;
 }
 
 .buttons {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .btn {
-  padding: 14px 36px;
+  padding: 14px 32px;
   border-radius: 50px;
   text-decoration: none;
   font-family: 'Poppins', sans-serif;
@@ -91,22 +135,139 @@ nav div a:hover {
 }
 
 .btn.outline {
-  border: 2px solid #2d6a4f;
-  color: #2d6a4f;
-  background: white;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  background: transparent;
 }
 
 .btn.outline:hover {
-  background-color: #2d6a4f;
-  color: white;
+  background-color: white;
+  color: #1b4332;
   transform: translateY(-2px);
+}
+
+.btn.volunteer {
+  border: 2px solid #b7e4c7;
+  color: #b7e4c7;
+  background: transparent;
+}
+
+.btn.volunteer:hover {
+  background-color: #b7e4c7;
+  color: #1b4332;
+  transform: translateY(-2px);
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  background-color: #2d6a4f;
+  padding: 36px 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stat {
+  text-align: center;
+  color: white;
+}
+
+.stat h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem;
+  color: #b7e4c7;
+  font-weight: 400;
+}
+
+.stat p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #d8f3dc;
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+/* IMPACT SECTION */
+.impact {
+  padding: 80px 40px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.impact h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #1b4332;
+  margin-bottom: 8px;
+}
+
+.impact .sub {
+  font-family: 'Poppins', sans-serif;
+  color: #888;
+  font-size: 1rem;
+  margin-bottom: 48px;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.impact-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 320px;
+}
+
+.impact-card.big {
+  height: 320px;
+}
+
+.impact-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.impact-card:hover img {
+  transform: scale(1.05);
+}
+
+.impact-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.75));
+  padding: 20px 16px 16px;
+  color: white;
+  text-align: left;
+}
+
+.impact-label span {
+  font-size: 1.4rem;
+}
+
+.impact-label p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 4px;
 }
 
 /* HOW IT WORKS */
 .how {
   padding: 80px 20px 60px;
   text-align: center;
-  background-color: #ffffff;
+  background-color: #f0faf4;
 }
 
 .how h3 {
@@ -116,13 +277,13 @@ nav div a:hover {
   margin-bottom: 8px;
 }
 
-.how p.sub {
+.how .sub {
   font-family: 'Poppins', sans-serif;
   color: #888;
   font-size: 1rem;
   margin-bottom: 48px;
-  font-weight: 300;
   font-style: italic;
+  font-weight: 300;
 }
 
 .steps {
@@ -133,7 +294,7 @@ nav div a:hover {
 }
 
 .step {
-  background: #f0faf4;
+  background: white;
   border-radius: 20px;
   padding: 36px 28px;
   width: 230px;
@@ -165,11 +326,33 @@ nav div a:hover {
   line-height: 1.6;
 }
 
+/* CTA */
+.cta {
+  background: linear-gradient(135deg, #1b4332, #2d6a4f);
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.cta h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.cta p {
+  font-family: 'Poppins', sans-serif;
+  color: #d8f3dc;
+  font-size: 1rem;
+  margin-bottom: 32px;
+  font-weight: 300;
+}
+
 /* FOOTER */
 footer {
   text-align: center;
   padding: 28px;
-  background-color: #2d6a4f;
+  background-color: #1b4332;
   color: #d8f3dc;
   font-family: 'Poppins', sans-serif;
   font-size: 0.9rem;
