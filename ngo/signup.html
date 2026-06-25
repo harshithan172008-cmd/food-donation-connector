@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NGO Login</title>
+  <title>NGO Signup</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/auth.css" />
 </head>
@@ -13,7 +13,7 @@
     <h1>🍱 Food Donation Connector</h1>
     <div>
       <a href="../index.html">Home</a>
-      <a href="../restaurant/login.html">Restaurant Login</a>
+      <a href="login.html">Login</a>
     </div>
   </nav>
 
@@ -21,21 +21,26 @@
     <div class="ngo-image-side">
       <img src="../images/ngo.png" alt="NGO volunteers"/>
       <div class="ngo-overlay">
-        <h3>"Together we can end hunger"</h3>
-        <p>Join hundreds of NGOs already making a difference</p>
+        <h3>"Every meal you claim feeds a family"</h3>
+        <p>Register your NGO and start claiming food today</p>
       </div>
     </div>
 
     <div class="ngo-form-side">
       <div class="auth-box">
-        <h2>🏢 NGO Login</h2>
-        <p class="auth-sub">Welcome back! Login to claim surplus food.</p>
+        <h2>🏢 NGO Signup</h2>
+        <p class="auth-sub">Register your NGO to claim surplus food</p>
 
+        <input type="text" id="ngoName" placeholder="NGO Name" />
         <input type="email" id="email" placeholder="Email Address" />
+        <input type="tel" id="phone" placeholder="Phone Number" />
+        <input type="text" id="address" placeholder="NGO Address" />
+        <input type="text" id="regNumber" placeholder="Registration Number" />
         <input type="password" id="password" placeholder="Password" />
-        <button onclick="handleLogin()">Login</button>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" />
+        <button onclick="handleSignup()">Create Account</button>
 
-        <p class="switch">Don't have an account? <a href="signup.html">Sign Up</a></p>
+        <p class="switch">Already have an account? <a href="login.html">Login</a></p>
       </div>
     </div>
   </div>
