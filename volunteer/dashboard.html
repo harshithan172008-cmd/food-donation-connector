@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Volunteer Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/listings.css" />
+</head>
+<body>
+
+  <nav>
+    <h1>🍱 Food Donation Connector</h1>
+    <div>
+      <a href="../index.html">Home</a>
+      <span id="volunteerName">Welcome!</span>
+      <a href="../index.html" onclick="handleLogout()">Logout</a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <a href="dashboard.html" class="active">📊 Dashboard</a>
+      <a href="available.html">🍱 Find Food</a>
+      <a href="my-deliveries.html">🚴 My Deliveries</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <h2>Volunteer Dashboard</h2>
+      <p class="welcome">Find surplus food nearby and deliver it to those in need</p>
+
+      <!-- STATS -->
+      <div class="dash-stats">
+        <div class="dash-stat">
+          <span>🚴</span>
+          <h3 id="totalDeliveries">0</h3>
+          <p>Total Deliveries</p>
+        </div>
+        <div class="dash-stat">
+          <span>🍱</span>
+          <h3 id="foodClaimed">0</h3>
+          <p>Food Claimed</p>
+        </div>
+        <div class="dash-stat">
+          <span>🌍</span>
+          <h3 id="peopleFed">0</h3>
+          <p>People Fed</p>
+        </div>
+        <div class="dash-stat">
+          <span>⭐</span>
+          <h3 id="points">0</h3>
+          <p>Volunteer Points</p>
+        </div>
+      </div>
+
+      <!-- NEARBY FOOD -->
+      <div class="recent">
+        <div class="recent-header">
+          <h3>Food Available Nearby</h3>
+          <a href="available.html" class="btn green">Find More</a>
+        </div>
+
+        <div class="listings-grid" id="nearbyFood">
+          <div class="food-listing-card">
+            <div class="card-header">
+              <span class="food-emoji">🫓</span>
+              <span class="badge available">Available</span>
+            </div>
+            <h4>Dosa & Chutney</h4>
+            <p class="restaurant-name">🏪 Spice Garden Restaurant</p>
+            <div class="card-details">
+              <span>📦 10 Servings</span>
+              <span>⏰ Until 8:00 PM</span>
+            </div>
+            <p class="card-address">📍 MG Road, Bengaluru</p>
+            <button class="claim-btn" onclick="claimFood(this)">Claim & Deliver</button>
+          </div>
+
+          <div class="food-listing-card">
+            <div class="card-header">
+              <span class="food-emoji">🍚</span>
+              <span class="badge available">Available</span>
+            </div>
+            <h4>Veg Fried Rice</h4>
+            <p class="restaurant-name">🏪 Chinese Wok</p>
+            <div class="card-details">
+              <span>📦 8 Boxes</span>
+              <span>⏰ Until 9:00 PM</span>
+            </div>
+            <p class="card-address">📍 HSR Layout, Bengaluru</p>
+            <button class="claim-btn" onclick="claimFood(this)">Claim & Deliver</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+
+</body>
+</html>

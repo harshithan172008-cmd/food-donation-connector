@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Volunteer Login</title>
+  <title>Volunteer Signup</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/auth.css" />
 </head>
@@ -13,8 +13,7 @@
     <h1>🍱 Food Donation Connector</h1>
     <div>
       <a href="../index.html">Home</a>
-      <a href="../restaurant/login.html">Restaurant</a>
-      <a href="../ngo/login.html">NGO</a>
+      <a href="login.html">Login</a>
     </div>
   </nav>
 
@@ -23,21 +22,25 @@
     <div class="ngo-image-side">
       <img src="../images/volunteer.png" alt="Volunteers"/>
       <div class="ngo-overlay">
-        <h3>"Small acts of kindness change the world"</h3>
-        <p>Join our volunteer network and feed someone today</p>
+        <h3>"Be the change you wish to see"</h3>
+        <p>Register as a volunteer and start making a difference</p>
       </div>
     </div>
 
     <div class="ngo-form-side">
       <div class="auth-box">
-        <h2> Volunteer Login</h2>
-        <p class="auth-sub">Welcome back! Login to find food near you.</p>
+        <h2> Volunteer Signup</h2>
+        <p class="auth-sub">Register to claim and deliver food to those in need</p>
 
+        <input type="text" id="fullName" placeholder="Full Name" />
         <input type="email" id="email" placeholder="Email Address" />
+        <input type="tel" id="phone" placeholder="Phone Number" />
+        <input type="text" id="area" placeholder="Your Area / Locality" />
         <input type="password" id="password" placeholder="Password" />
-        <button onclick="handleLogin()">Login</button>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" />
+        <button onclick="handleSignup()">Join as Volunteer</button>
 
-        <p class="switch">Don't have an account? <a href="signup.html">Sign Up</a></p>
+        <p class="switch">Already have an account? <a href="login.html">Login</a></p>
       </div>
     </div>
 
