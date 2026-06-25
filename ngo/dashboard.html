@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NGO Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+  <nav>
+    <h1>🍱 Food Donation Connector</h1>
+    <div>
+      <a href="../index.html">Home</a>
+      <span id="ngoName">Welcome!</span>
+      <a href="../index.html" onclick="handleLogout()">Logout</a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <a href="dashboard.html" class="active">📊 Dashboard</a>
+      <a href="listings.html">🍱 Available Food</a>
+      <a href="claimed.html">✅ Claimed Food</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <h2>NGO Dashboard</h2>
+      <p class="welcome">Track your claims and impact</p>
+
+      <!-- STATS -->
+      <div class="dash-stats">
+        <div class="dash-stat">
+          <span>✅</span>
+          <h3 id="totalClaimed">0</h3>
+          <p>Total Claimed</p>
+        </div>
+        <div class="dash-stat">
+          <span>🍱</span>
+          <h3 id="available">0</h3>
+          <p>Available Now</p>
+        </div>
+        <div class="dash-stat">
+          <span>🌍</span>
+          <h3 id="peopleFed">0</h3>
+          <p>People Fed</p>
+        </div>
+        <div class="dash-stat">
+          <span>🏪</span>
+          <h3 id="restaurants">0</h3>
+          <p>Restaurants Connected</p>
+        </div>
+      </div>
+
+      <!-- RECENT CLAIMS -->
+      <div class="recent">
+        <div class="recent-header">
+          <h3>Recent Claims</h3>
+          <a href="listings.html" class="btn green">Browse Food</a>
+        </div>
+        <div id="claimsList">
+          <p class="empty">No claims yet. <a href="listings.html">Browse available food!</a></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+
+</body>
+</html>

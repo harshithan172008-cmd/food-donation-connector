@@ -1,0 +1,139 @@
+/* FILTERS */
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.filters input,
+.filters select {
+  padding: 10px 16px;
+  border: 1.5px solid #c8e6c9;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  background: white;
+  transition: border 0.3s;
+}
+
+.filters input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #2d6a4f;
+}
+
+/* LISTINGS GRID */
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* FOOD CARD */
+.food-listing-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  transition: transform 0.3s;
+  border-top: 4px solid #2d6a4f;
+}
+
+.food-listing-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.food-emoji {
+  font-size: 2rem;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge.available {
+  background-color: #d8f3dc;
+  color: #1b4332;
+}
+
+.badge.claimed {
+  background-color: #ffe0e0;
+  color: #c0392b;
+}
+
+.food-listing-card h4 {
+  font-family: 'Playfair Display', serif;
+  color: #1b4332;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.restaurant-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.card-details {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.card-details span {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  color: #555;
+  background: #f0faf4;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.card-address {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+.claim-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #2d6a4f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.claim-btn:hover {
+  background-color: #1b4332;
+}
+
+.claim-btn.claimed {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
