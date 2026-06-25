@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Deliveries</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/listings.css" />
+</head>
+<body>
+
+  <nav>
+    <h1>🍱 Food Donation Connector</h1>
+    <div>
+      <a href="../index.html">Home</a>
+      <a href="../index.html" onclick="handleLogout()">Logout</a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+
+    <div class="sidebar">
+      <a href="dashboard.html">📊 Dashboard</a>
+      <a href="available.html">🍱 Find Food</a>
+      <a href="my-deliveries.html" class="active">🚴 My Deliveries</a>
+    </div>
+
+    <div class="main">
+      <h2>My Deliveries</h2>
+      <p class="welcome">Track all your food deliveries here</p>
+
+      <div class="listings-grid" id="deliveriesList">
+        <p style="text-align:center; font-size:1.3rem; color:#aaa; font-family:'Poppins',sans-serif; padding:60px 0; width:100%;">No deliveries yet. <a href="available.html" style="color:#2d6a4f; font-weight:600;">Find food to deliver!</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+
+</body>
+</html>
