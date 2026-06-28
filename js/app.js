@@ -223,6 +223,7 @@ auth.onAuthStateChanged((user) => {
     loadClaimedFood();
     loadVolunteerDashboard();
     loadMyDeliveries();
+    loadRecentClaims();
   }
 });
 
@@ -241,21 +242,26 @@ async function loadListings() {
       if (data.status === "available") {
         count++;
         grid.innerHTML += `
-          <div class="food-listing-card">
-            <div class="card-header">
-              <span class="food-emoji">🍱</span>
-              <span class="badge available">Available</span>
-            </div>
-            <h4>${data.foodName}</h4>
-            <p class="restaurant-name">📦 ${data.category}</p>
-            <div class="card-details">
-              <span>📦 ${data.quantity} ${data.unit}</span>
-              <span>⏰ ${data.availableFrom} - ${data.availableUntil}</span>
-            </div>
-            <p class="card-address">📍 ${data.pickupAddress}</p>
-            <button class="claim-btn" onclick="claimFood(this, '${docSnap.id}')">Claim Food</button>
-          </div>
-        `;
+  <div class="food-listing-card">
+    <div class="card-header">
+      <span class="food-emoji">🍱</span>
+      <span class="badge available">Available</span>
+    </div>
+    <h4>${data.foodName}</h4>
+    <p class="restaurant-name">📦 ${data.category}</p>
+    <div class="card-details">
+      <span>📦 ${data.quantity} ${data.unit}</span>
+      <span>⏰ ${data.availableFrom} - ${data.availableUntil}</span>
+    </div>
+    <p class="card-address">📍 ${data.pickupAddress}</p>
+    <div class="card-extra" style="display:none;">
+      <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555; margin:8px 0;"><strong>Notes:</strong> ${data.notes || 'No additional notes'}</p>
+      <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;"><strong>Posted by:</strong> ${data.restaurantEmail}</p>
+    </div>
+    <button class="details-btn" onclick="toggleDetails(this)" style="width:100%; padding:8px; background:#f0faf4; color:#2d6a4f; border:1px solid #2d6a4f; border-radius:8px; font-family:'Poppins',sans-serif; font-size:0.85rem; cursor:pointer; margin-bottom:8px;">View Details ▼</button>
+    <button class="claim-btn" onclick="claimFood(this, '${docSnap.id}')">Claim Food</button>
+  </div>
+`;
       }
     });
 
@@ -441,3 +447,60 @@ async function loadMyDeliveries() {
     console.error(error);
   }
 }
+
+// LOAD RECENT CLAIMS (NGO Dashboard)
+async function loadRecentClaims() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "foodListings"));
+    const list = document.getElementById("claimsList");
+    if (!list) return;
+
+    list.innerHTML = "";
+    let count = 0;
+
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      if (data.claimedBy === user.uid) {
+        count++;
+        list.innerHTML += `
+          <div class="food-listing-card">
+            <div class="card-header">
+              <span class="food-emoji">🍱</span>
+              <span class="badge claimed">Claimed</span>
+            </div>
+            <h4>${data.foodName}</h4>
+            <p class="restaurant-name">📦 ${data.category}</p>
+            <div class="card-details">
+              <span>📦 ${data.quantity} ${data.unit}</span>
+              <span>⏰ ${data.availableFrom} - ${data.availableUntil}</span>
+            </div>
+            <p class="card-address">📍 ${data.pickupAddress}</p>
+          </div>
+        `;
+      }
+    });
+
+    if (count === 0) {
+      list.innerHTML = `<p class="empty">No claims yet. <a href="listings.html">Browse available food!</a></p>`;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// TOGGLE DETAILS
+function toggleDetails(button) {
+  const extra = button.previousElementSibling;
+  if (extra.style.display === "none") {
+    extra.style.display = "block";
+    button.textContent = "Hide Details ▲";
+  } else {
+    extra.style.display = "none";
+    button.textContent = "View Details ▼";
+  }
+}
+
+window.toggleDetails = toggleDetails;
