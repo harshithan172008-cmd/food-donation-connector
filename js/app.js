@@ -141,6 +141,7 @@ async function postFood() {
 
 // CLAIM FOOD
 async function claimFood(button, foodId) {
+  async function claimFood(button, foodId) {
   try {
     const user = auth.currentUser;
     if (!user) {
@@ -148,20 +149,21 @@ async function claimFood(button, foodId) {
       return;
     }
 
-    const card = button.closest(".food-listing-card");
-    const foodName = card.querySelector("h4").textContent;
+    // get claimer details from firestore
+    const userDoc = await getDocs(collection(db, "users"));
+    let claimerName = "";
+    let claimerRole = "";
+    let claimerEmail = user.email;
 
-    await updateDoc(firestoreDoc(db, "foodListings", foodId), {
-      status: "claimed",
-      claimedBy: user.uid,
-      claimedAt: new Date()
+    userDoc.forEach((docSnap) => {
+      if (docSnap.id === user.uid) {
+        claimerName = docSnap.data().name;
+        claimerRole = docSnap.data().role;
+      }
     });
 
-    button.textContent = "✅ Claimed!";
-    button.classList.add("claimed");
-    button.disabled = true;
-
-    alert(`✅ ${foodName} claimed successfully! Restaurant has been notified.`);
+    // show claim modal
+    showClaimModal(foodId, claimerName, claimerRole, claimerEmail);
 
   } catch (error) {
     alert(error.message);
@@ -200,13 +202,124 @@ async function loadMyDonations() {
               <span>⏰ ${data.availableFrom} - ${data.availableUntil}</span>
             </div>
             <p class="card-address">📍 ${data.pickupAddress}</p>
+            ${data.status === 'claimed' ? `
+              <div style="margin-top:12px; padding:12px; background:#f0faf4; border-radius:10px;">
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#1b4332; font-weight:600;">Claimed by:</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">👤 ${data.claimerName} (${data.claimerRole})</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📧 ${data.claimerEmail}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📞 ${data.contactNumber}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">⏰ Pickup at: ${data.pickupTime}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">👥 Est. people to feed: ${data.estimatedPeople}</p>
+                ${data.claimNote ? `<p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📝 Note: ${data.claimNote}</p>` : ""}
+              </div>
+            ` : ""}
           </div>
         `;
       }
     });
 
     if (count === 0) {
-      list.innerHTML = `<p style="text-align:center; font-size:1.3rem; color:#aaa; font-family:'Poppins',sans-serif; padding:60px 0; width:100%;">No donations yet. <a href="post-food.html" style="color:#2d6a4f; font-weight:600;">Post your first donation!</a></p>`;
+      list.innerHTML = `<p class="empty">No donations yet. <a href="post-food.html">Post your first one!</a></p>`;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}async function loadMyDonations() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "foodListings"));
+    const list = document.getElementById("donationsList");
+    if (!list) return;
+
+    list.innerHTML = "";
+    let count = 0;
+
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      if (data.restaurantId === user.uid) {
+        count++;
+        list.innerHTML += `
+          <div class="food-listing-card">
+            <div class="card-header">
+              <span class="food-emoji">🍱</span>
+              <span class="badge ${data.status === 'available' ? 'available' : 'claimed'}">${data.status}</span>
+            </div>
+            <h4>${data.foodName}</h4>
+            <div class="card-details">
+              <span>📦 ${data.quantity} ${data.unit}</span>
+              <span>⏰ ${data.availableFrom} - ${data.availableUntil}</span>
+            </div>
+            <p class="card-address">📍 ${data.pickupAddress}</p>
+            ${data.status === 'claimed' ? `
+              <div style="margin-top:12px; padding:12px; background:#f0faf4; border-radius:10px;">
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#1b4332; font-weight:600;">Claimed by:</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">👤 ${data.claimerName} (${data.claimerRole})</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📧 ${data.claimerEmail}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📞 ${data.contactNumber}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">⏰ Pickup at: ${data.pickupTime}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">👥 Est. people to feed: ${data.estimatedPeople}</p>
+                ${data.claimNote ? `<p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📝 Note: ${data.claimNote}</p>` : ""}
+              </div>
+            ` : ""}
+          </div>
+        `;
+      }
+    });
+
+    if (count === 0) {
+      list.innerHTML = `<p class="empty">No donations yet. <a href="post-food.html">Post your first one!</a></p>`;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}async function loadMyDonations() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "foodListings"));
+    const list = document.getElementById("donationsList");
+    if (!list) return;
+
+    list.innerHTML = "";
+    let count = 0;
+
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      if (data.restaurantId === user.uid) {
+        count++;
+        list.innerHTML += `
+          <div class="food-listing-card">
+            <div class="card-header">
+              <span class="food-emoji">🍱</span>
+              <span class="badge ${data.status === 'available' ? 'available' : 'claimed'}">${data.status}</span>
+            </div>
+            <h4>${data.foodName}</h4>
+            <div class="card-details">
+              <span>📦 ${data.quantity} ${data.unit}</span>
+              <span>⏰ ${data.availableFrom} - ${data.availableUntil}</span>
+            </div>
+            <p class="card-address">📍 ${data.pickupAddress}</p>
+            ${data.status === 'claimed' ? `
+              <div style="margin-top:12px; padding:12px; background:#f0faf4; border-radius:10px;">
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#1b4332; font-weight:600;">Claimed by:</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">👤 ${data.claimerName} (${data.claimerRole})</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📧 ${data.claimerEmail}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📞 ${data.contactNumber}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">⏰ Pickup at: ${data.pickupTime}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">👥 Est. people to feed: ${data.estimatedPeople}</p>
+                ${data.claimNote ? `<p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📝 Note: ${data.claimNote}</p>` : ""}
+              </div>
+            ` : ""}
+          </div>
+        `;
+      }
+    });
+
+    if (count === 0) {
+      list.innerHTML = `<p class="empty">No donations yet. <a href="post-food.html">Post your first one!</a></p>`;
     }
   } catch (error) {
     console.error(error);
@@ -504,3 +617,97 @@ function toggleDetails(button) {
 }
 
 window.toggleDetails = toggleDetails;
+
+function showClaimModal(foodId, claimerName, claimerRole, claimerEmail) {
+  // remove existing modal if any
+  const existing = document.getElementById("claimModal");
+  if (existing) existing.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "claimModal";
+  modal.style.cssText = `
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  modal.innerHTML = `
+    <div style="background:white; border-radius:20px; padding:40px; width:90%; max-width:500px; font-family:'Poppins',sans-serif;">
+      <h3 style="font-family:'Playfair Display',serif; color:#1b4332; margin-bottom:8px;">Claim Food 🍱</h3>
+      <p style="color:#888; font-size:0.9rem; margin-bottom:24px;">Fill in your details to claim this food</p>
+
+      <label style="font-size:0.9rem; font-weight:600; color:#1b4332;">Estimated people to feed</label>
+      <input type="number" id="estimatedPeople" placeholder="e.g. 20" style="width:100%; padding:12px; border:1.5px solid #c8e6c9; border-radius:10px; margin:8px 0 16px; font-size:0.95rem; outline:none;"/>
+
+      <label style="font-size:0.9rem; font-weight:600; color:#1b4332;">Pickup Time</label>
+      <div style="display:flex; gap:10px; margin:8px 0 16px;">
+        <input type="time" id="pickupTime" style="flex:1; padding:12px; border:1.5px solid #c8e6c9; border-radius:10px; font-size:0.95rem; outline:none;"/>
+        <select id="pickupPeriod" style="width:80px; padding:12px; border:1.5px solid #c8e6c9; border-radius:10px; font-size:0.95rem; outline:none;">
+          <option>AM</option>
+          <option>PM</option>
+        </select>
+      </div>
+
+      <label style="font-size:0.9rem; font-weight:600; color:#1b4332;">Contact Number</label>
+      <input type="tel" id="contactNumber" placeholder="Your phone number" style="width:100%; padding:12px; border:1.5px solid #c8e6c9; border-radius:10px; margin:8px 0 16px; font-size:0.95rem; outline:none;"/>
+
+      <label style="font-size:0.9rem; font-weight:600; color:#1b4332;">Note (Optional)</label>
+      <textarea id="claimNote" placeholder="Any message for the restaurant..." style="width:100%; padding:12px; border:1.5px solid #c8e6c9; border-radius:10px; margin:8px 0 16px; font-size:0.95rem; outline:none; height:80px; resize:vertical;"></textarea>
+
+      <div style="display:flex; gap:12px; margin-top:8px;">
+        <button onclick="document.getElementById('claimModal').remove()" style="flex:1; padding:12px; border:2px solid #2d6a4f; background:white; color:#2d6a4f; border-radius:10px; font-size:0.95rem; font-weight:600; cursor:pointer;">Cancel</button>
+        <button onclick="confirmClaim('${foodId}', '${claimerName}', '${claimerRole}', '${claimerEmail}')" style="flex:1; padding:12px; background:#2d6a4f; color:white; border:none; border-radius:10px; font-size:0.95rem; font-weight:600; cursor:pointer;">Confirm Claim ✅</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+async function confirmClaim(foodId, claimerName, claimerRole, claimerEmail) {
+  const estimatedPeople = document.getElementById("estimatedPeople").value;
+  const pickupTime = document.getElementById("pickupTime").value;
+  const pickupPeriod = document.getElementById("pickupPeriod").value;
+  const contactNumber = document.getElementById("contactNumber").value;
+  const claimNote = document.getElementById("claimNote").value;
+
+  if (!estimatedPeople || !pickupTime || !contactNumber) {
+    alert("Please fill all required fields!");
+    return;
+  }
+
+  try {
+    const user = auth.currentUser;
+
+    await updateDoc(firestoreDoc(db, "foodListings", foodId), {
+      status: "claimed",
+      claimedBy: user.uid,
+      claimedAt: new Date(),
+      claimerName: claimerName,
+      claimerRole: claimerRole,
+      claimerEmail: claimerEmail,
+      estimatedPeople: parseInt(estimatedPeople),
+      pickupTime: pickupTime + " " + pickupPeriod,
+      contactNumber: contactNumber,
+      claimNote: claimNote || ""
+    });
+
+    document.getElementById("claimModal").remove();
+    alert(`✅ Food claimed successfully! Restaurant has been notified.`);
+
+    // reload listings
+    loadListings();
+    loadNGODashboard();
+    loadVolunteerDashboard();
+
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+window.confirmClaim = confirmClaim;
+window.showClaimModal = showClaimModal;
