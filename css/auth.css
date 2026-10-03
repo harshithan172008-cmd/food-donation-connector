@@ -89,9 +89,10 @@
 }
 
 .ngo-image-side {
-  flex: 1.5;
+  flex: 1;
   position: relative;
   overflow: hidden;
+  min-height: 92vh;
 }
 
 .ngo-image-side img {
@@ -124,10 +125,11 @@
 }
 
 .ngo-form-side {
-  flex: 0.8;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f0faf4;
   padding: 40px;
+  min-height: 92vh;
 }

@@ -271,43 +271,56 @@ async function loadMyDonations() {
     if (!list) return;
 
     list.innerHTML = "";
-    let count = 0;
+    let donations = [];
 
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
       if (data.restaurantId === user.uid) {
-        count++;
-        list.innerHTML += `
-          <div class="food-listing-card">
-            <div class="card-header">
-              <span class="food-emoji">🍱</span>
-              <span class="badge ${data.status === 'available' ? 'available' : 'claimed'}">${data.status}</span>
-            </div>
-            <h4>${data.foodName}</h4>
-            <div class="card-details">
-              <span>📦 ${data.quantity} ${data.unit}</span>
-              <span>⏰ ${data.availableFrom} - ${data.availableUntil}</span>
-            </div>
-            <p class="card-address">📍 ${data.pickupAddress}</p>
-            ${data.status === 'claimed' ? `
-              <div style="margin-top:12px; padding:12px; background:#f0faf4; border-radius:10px;">
-                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#1b4332; font-weight:600;">Claimed by:</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">👤 ${data.claimerName} (${data.claimerRole})</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📧 ${data.claimerEmail}</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📞 ${data.contactNumber}</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">⏰ Pickup at: ${data.pickupTime}</p>
-                <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">👥 Est. people to feed: ${data.estimatedPeople}</p>
-                ${data.claimNote ? `<p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📝 Note: ${data.claimNote}</p>` : ""}
-              </div>
-            ` : ""}
-          </div>
-        `;
+        donations.push({ id: docSnap.id, ...data });
       }
     });
 
-    if (count === 0) {
+    // sort newest first
+    donations.sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
+
+    if (donations.length === 0) {
       list.innerHTML = `<p class="empty">No donations yet. <a href="post-food.html">Post your first one!</a></p>`;
+      return;
     }
+
+    donations.forEach((data) => {
+      list.innerHTML += `
+        <div style="background:white; border-radius:16px; padding:24px; margin-bottom:16px; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid ${data.status === 'available' ? '#2d6a4f' : '#f4a261'};">
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h4 style="font-family:'Playfair Display',serif; color:#1b4332; font-size:1.1rem;">🍱 ${data.foodName}</h4>
+            <span style="padding:4px 14px; border-radius:50px; font-family:'Poppins',sans-serif; font-size:0.78rem; font-weight:600; background:${data.status === 'available' ? '#d8f3dc' : '#ffe8d6'}; color:${data.status === 'available' ? '#1b4332' : '#e76f51'};">${data.status === 'available' ? '✅ Available' : '🤝 Claimed'}</span>
+          </div>
+
+          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:12px;">
+            <span style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📦 ${data.quantity} ${data.unit}</span>
+            <span style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">🏷️ ${data.category}</span>
+            <span style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">⏰ ${data.availableFrom} - ${data.availableUntil}</span>
+            <span style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#555;">📍 ${data.pickupAddress}</span>
+          </div>
+
+          ${data.status === 'claimed' ? `
+            <div style="margin-top:12px; padding:16px; background:#fff8f3; border-radius:12px; border:1px solid #ffe8d6;">
+              <p style="font-family:'Poppins',sans-serif; font-size:0.85rem; color:#e76f51; font-weight:600; margin-bottom:8px;">🤝 Claimed By</p>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <p style="font-family:'Poppins',sans-serif; font-size:0.82rem; color:#555;">👤 <strong>${data.claimerName}</strong> (${data.claimerRole})</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.82rem; color:#555;">📧 ${data.claimerEmail}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.82rem; color:#555;">📞 ${data.contactNumber}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.82rem; color:#555;">⏰ Pickup: ${data.pickupTime}</p>
+                <p style="font-family:'Poppins',sans-serif; font-size:0.82rem; color:#555;">👥 Est. people: ${data.estimatedPeople}</p>
+                ${data.claimNote ? `<p style="font-family:'Poppins',sans-serif; font-size:0.82rem; color:#555;">📝 ${data.claimNote}</p>` : ""}
+              </div>
+            </div>
+          ` : ""}
+        </div>
+      `;
+    });
+
   } catch (error) {
     console.error(error);
   }
